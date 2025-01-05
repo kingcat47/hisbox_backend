@@ -3,6 +3,7 @@ import { Music } from '../entity/music.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createMusicDto } from '../dto/create-music.dto';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class MusicsRepository extends Repository<Music> {
@@ -15,7 +16,12 @@ export class MusicsRepository extends Repository<Music> {
 
   async createMusic(body: createMusicDto): Promise<Music> {
     const { title, link, text } = body;
-    const music = this.create({ title: title, link: link, text: text });
+    const music = this.create({
+      // id: uuid(),
+      title: title,
+      link: link,
+      text: text,
+    });
     await this.save(music);
     return music;
   }

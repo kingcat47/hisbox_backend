@@ -6,8 +6,8 @@ import { Music } from './entity/music.entity';
 import { MusicsRepository } from './types/musics.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MusicsRepository])],
+  imports: [TypeOrmModule.forFeature([Music])],
   controllers: [MusicsController],
-  providers: [MusicsService],
+  providers: [MusicsService, MusicsRepository],
 })
 export class MusicsModule {}

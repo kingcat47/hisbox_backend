@@ -28,7 +28,8 @@ export class MusicsService {
     return await 'Music';
   }
 
-  async deleteMusic() {
-    return await 'Music deleted';
+  async deleteMusic(id): Promise<void> {
+    const result = await this.musicsRepository.delete(id);
+    console.log(result);
   }
 }
