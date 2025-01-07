@@ -34,9 +34,14 @@ export class MusicsController {
 
   @Get('getall')
   @UseGuards(AuthGuard('jwt'))
-  getAllMusics(@GetUser() user: User): Promise<Music[]> {
+  async getAllMusics(@GetUser() user: User) {
     console.log('모든음악을 가져오려고 시도중');
-    return this.musicsService.getAllMusics(user);
+    const req = await this.musicsService.getAllMusics(user);
+    console.log(req);
+    return {
+      data: 'test_data',
+      message: 'test_message',
+    };
   }
 
   @Get('/:id')
