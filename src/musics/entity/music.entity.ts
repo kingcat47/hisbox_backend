@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/entity/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Music {
@@ -15,4 +22,8 @@ export class Music {
 
   @Column()
   text: string;
+
+  @ManyToOne(() => User, (user) => user.musics, { eager: false })
+  // @JoinColumn({ name: 'userId' })
+  user: User;
 }

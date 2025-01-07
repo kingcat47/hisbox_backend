@@ -38,7 +38,10 @@ export class UserService {
       if (userinfo != null) {
         const checkPw = await bcrypt.compare(body.password, userinfo.password);
         if (checkPw == true) {
-          const payload = { username: userinfo.username };
+          const payload = {
+            username: userinfo.username,
+            accountId: userinfo.accountId,
+          };
           const accessToken = await this.jwtService.sign(payload);
           return { accessToken: accessToken };
         } else {
@@ -57,21 +60,19 @@ export class UserService {
 
     const token = jwt.sign({ ...data, expTime }, process.env.JWT_SECRET_KEY, {
       algorithm: 'HS256',
-      expTime: type == 'ACCESS_TOKEN' ? 7200 : 1209600,
+      expiresIn: type == 'ACCESS_TOKEN' ? 7200 : 1209600,
     });
     return token;
   }
 
   async refreshToken(tokenDto: TokenDto): Promise<any> {
     try {
-      const user = jwt.verify(
+      const user: any = jwt.verify(
         tokenDto.refreshToken,
         process.env.JWT_SECRET_KEY,
       );
 
-      const userInfo = await this.userRepository.findByAccountId(
-        user.accountId,
-      );
+      const userInfo = await this.userRepository.findByAccountId(user.accounId);
       if (userInfo == null) {
         throw new UnauthorizedException();
       }

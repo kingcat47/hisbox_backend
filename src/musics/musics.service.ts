@@ -2,16 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { Music } from './entity/music.entity';
 import { createMusicDto } from './dto/create-music.dto';
 import { MusicsRepository } from './types/musics.repository';
+import { User } from 'src/user/entity/user.entity';
 @Injectable()
 export class MusicsService {
   private musics: Music[] = [];
   constructor(private musicsRepository: MusicsRepository) {}
-  async getAllMusics(): Promise<Music[]> {
-    return await this.musics;
+
+  async getAllMusics(user: User): Promise<Music[]> {
+    const music = await this.musicsRepository.getAllMusics(user);
+
+    return music;
   }
 
-  createMusic(body: createMusicDto): Promise<Music> {
-    return this.musicsRepository.createMusic(body);
+  createMusic(body: createMusicDto, user: User): Promise<Music> {
+    return this.musicsRepository.createMusic(body, user);
   }
 
   async getMusicById(id: number): Promise<Music> {

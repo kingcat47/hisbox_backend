@@ -1,7 +1,10 @@
+import { Music } from 'src/musics/entity/music.entity';
 import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
@@ -23,4 +26,8 @@ export class User {
 
   @Column({ default: false })
   isBlocked: boolean; //정상인놈인지
+
+  @OneToMany(() => Music, (music) => music.user, { eager: true })
+  // @JoinColumn({ name: 'accountId' })
+  musics: Music[];
 }

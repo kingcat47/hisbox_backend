@@ -32,7 +32,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         );
       }
     } catch (e) {
-      throw new UnauthorizedException();
+      done(e);
     }
   }
 }
